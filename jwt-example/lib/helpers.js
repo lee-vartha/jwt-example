@@ -39,8 +39,24 @@ function generateToken(req) {
     let expireDefault = '7d'
     const token = jwt.sign({
         auth: GUID,
-        agent: req.headers['user-agent'],
-    }, secret, {expiresIN: opts.expires || expireDefault})
+        agent: req.headers['user-agent'], 
+    }, secret, {expiresIN: opts.expires || expireDefault}) 
 
+    return token
+}
+
+
+function generateAndStoreToken(req, opts) {
+    const GUID = generateGUID()
+    const token = generateToken(req, GUID, opts)
+
+    let recod = {
+        'valid': true,
+        'created': newDate().getTime()
+    }
+
+    db.put(GUID, JSON.stringify(record), (err) => {
+        console.log(recod)
+    })
     return token
 }
