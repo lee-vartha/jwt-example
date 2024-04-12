@@ -60,3 +60,21 @@ function generateAndStoreToken(req, opts) {
     })
     return token
 }
+
+// success in auth
+function authSuccess(req, res) {
+    res.writeHead(200, {
+        'Content-Type': 'text/html',
+        'authorization': token
+    })
+    return res.end(restricted)
+}
+
+// lookup a person
+let person = {un: username, pw: password}
+
+// not found page
+function notFound(res) {
+    res.writeHead(404, {'Content-Type': 'text/html'})
+    return res.end(index)
+}
